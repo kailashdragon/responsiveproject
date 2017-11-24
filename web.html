@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>W3.CSS</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/3/w3.css">
+
+<style>
+/* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+</style>
+</head>
+<body>
+
+<header class="w3-container w3-teal">
+  <img src="avatar.jpg" align="right" height="5%" width="5%">
+        <h1>Hello User!! </h1>
+
+</header>
+
+<img src="" alt="" style="width:100%">
+
+<div class="w3-bordered w3-striped">
+   
+ <div class="container">
+     <form action="action.html" method="get">
+      <label><b>Name</b></label>
+      <input type="text" placeholder="Enter your name" name="name" autofocus="on" required><br><br><br>
+
+<label><b>Number of People</b></label>
+      <input type="number" placeholder="how many people are there" name="people" min="1" max="5" autofocus="on" required><br><br><br>
+
+<label><b>Car Model</b></label>
+ <input list="Car Models">
+   <datalist id="Car Models">
+    <option value="Innoova">Innoova</option>
+    <option value="Camry">Camry</option>
+    <option value="Avanti">Avanti</option>
+    <option value="Audi R8">Audi R8</option>
+    <option value="Tata Nano">Tata Nano</option>
+</datalist><br><br><br>
+      
+<label><b>Destination-Rate</b></label>
+ <input list="Destination-Rate">
+   <datalist id="Destination-Rate">
+    <option value="Nerul-RS.500">Nerul-RS.500</option>
+    <option value="Worli-RS.50">Worli-RS.50</option>
+    <option value="Dadar-RS.25">Dadar-RS.25</option>
+    <option value="Andheri-RS.150">Andheri-RS.150</option>
+    <option value="Ghatkopar-RS.75">Ghatkopar-RS.75</option>
+    <option value="Thane-RS.100">Thane-RS.100</option>
+  </datalist><br><br><br>
+
+        
+      <button type="submit">Book</button><br><br><br>
+      <input type="checkbox" checked="checked"> Remember me
+      </form>
+    </div>
+  <table class="w3-table w3-bordered w3-striped">
+	
+    </table>
+</div>
+
+<div class="w3-row-padding w3-section">
+
+  <div class="w3-half">
+    <div class="w3-card-2">
+      <img src="" alt="" style="width:100%">
+      <div class="w3-container">
+      </div>
+    </div>
+  </div>
+
+  <div class="w3-full">
+      <img src="" alt="" style="width:100%">
+       <div class="w3-container w3-red">
+  <p class="w3-xlarge w3-serif" style="font-family:Book Antiqua; text-align:center"><i>Ride Anywhere, Anytime And At Any Cost.</i></p>
+</div>
+</div>
+</div>
+
+
+<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    <div id="map"  style="width:960spx;height:400px;background:yellow"></div>
+
+<script src="https://www.gstatic.com/firebasejs/4.4.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC_LUcX41hTPw7McG8E1q5aHwGJ-tXbO6E",
+    authDomain: "carpool-system-l-1491445430298.firebaseapp.com",
+    databaseURL: "https://carpool-system-l-1491445430298.firebaseio.com",
+    projectId: "carpool-system-l-1491445430298",
+    storageBucket: "carpool-system-l-1491445430298.appspot.com",
+    messagingSenderId: "178760399927"
+  };
+  firebase.initializeApp(config);
+</script>
+
+    <script>
+      // This example adds a search box to a map, using the Google Place Autocomplete
+      // feature. People can enter geographical searches. The search box will return a
+      // pick list containing a mix of places and predicted search terms.
+
+      // This example requires the Places library. Include the libraries=places
+      // parameter when you first load the API. For example:
+      // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_LUcX41hTPw7McG8E1q5aHwGJ-tXbO6E&libraries=places">
+
+      function initAutocomplete() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 19.07, lng: 72.882},
+          zoom: 13,
+          mapTypeId: 'roadmap'
+        });
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('pac-input');
+        var searchBox = new google.maps.places.SearchBox(input);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+        // Bias the SearchBox results towards current map's viewport.
+        map.addListener('bounds_changed', function() {
+          searchBox.setBounds(map.getBounds());
+        });
+
+        var markers = [];
+        // Listen for the event fired when the user selects a prediction and retrieve
+        // more details for that place.
+        searchBox.addListener('places_changed', function() {
+          var places = searchBox.getPlaces();
+
+          if (places.length == 0) {
+            return;
+          }
+
+          // Clear out the old markers.
+          markers.forEach(function(marker) {
+            marker.setMap(null);
+          });
+          markers = [];
+
+          // For each place, get the icon, name and location.
+          var bounds = new google.maps.LatLngBounds();
+          places.forEach(function(place) {
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var icon = {
+              url: place.icon,
+              size: new google.maps.Size(71, 71),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(17, 34),
+              scaledSize: new google.maps.Size(25, 25)
+            };
+
+            // Create a marker for each place.
+            markers.push(new google.maps.Marker({
+              map: map,
+              icon: icon,
+              title: place.name,
+              position: place.geometry.location
+            }));
+
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+          });
+          map.fitBounds(bounds);
+        });
+      }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_LUcX41hTPw7McG8E1q5aHwGJ-tXbO6E&libraries=places&callback=initAutocomplete"
+         async defer></script>
+
+<footer class="w3-container w3-teal">
+  <img style="height:1%; width:5%" src="mobile.png">
+  <h3 align="left">For any Queries. Contact</h3>
+  <p style="float:left">Kailash: +919930673006</p>
+  <p style="float:right">Ronit: +919967027725</p>
+</footer>
+
+</body>
+</html>
